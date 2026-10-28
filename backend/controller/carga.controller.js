@@ -1,15 +1,33 @@
 const Carga = require('../models/Carga')
+const Motorista = require('../models/Motorista')
 
 const cadastrar = async(req,res)=>{
     const valores = req.body
-    if (!valores.descricao || !valores.peso || !valores.volume || !valores.idMotorista) {
-        return res.status(400).json({ message: 'Todos os campos (descricao, peso, volume, idMotorista) são obrigatórios!' })
+    if (!valores.descricao || !valores.peso || !valores.volume || !valores.codRastreio || !valores.idMotorista) {
+        return res.status(400).json({ message: 'Todos os campos (descricao, peso, volume, codRastreio, idMotorista) são obrigatórios!' })
+    }
+    if (!Number.isInteger(Number(valores.codRastreio))) {
+        return res.status(400).json({ message: 'O código de rastreio deve ser numérico!' })
+    }
+    if (valores.peso <= 0 || valores.volume <= 0) {
+        return res.status(400).json({ message: 'Peso e volume devem ser maiores que zero!' })
     }
     try{
+        const motorista = await Motorista.findByPk(valores.idMotorista)
+        if (!motorista) {
+            return res.status(404).json({ message: 'Motorista informado não existe!' })
+        }
+
+        const rastreio = await Carga.findOne({ where: { codRastreio: valores.codRastreio } })
+        if (rastreio) {
+            return res.status(409).json({ message: 'Código de rastreio já cadastrado!' })
+        }
+
         await Carga.create({
             descricao: valores.descricao,
             peso: valores.peso,
             volume: valores.volume,
+            codRastreio: valores.codRastreio,
             idMotorista: valores.idMotorista
         })
         return res.status(201).json({ message: 'Carga cadastrada com sucesso!' })
@@ -30,6 +48,7 @@ const listar = async (req, res) => {
                 descricao: el.descricao,
                 peso: el.peso,
                 volume: el.volume,
+                codRastreio: el.codRastreio,
                 idMotorista: el.idMotorista
             })
         })
@@ -53,6 +72,7 @@ const consultar = async (req, res) => {
             descricao: carga.descricao,
             peso: carga.peso,
             volume: carga.volume,
+            codRastreio: carga.codRastreio,
             idMotorista: carga.idMotorista
         })
     } catch (err) {
@@ -69,6 +89,17 @@ const atualizar = async (req, res) => {
         const carga = await Carga.findByPk(id)
         if (!carga) {
             return res.status(404).json({ message: 'Carga não encontrada!' })
+        }
+
+        if (valores.idMotorista) {
+            const motorista = await Motorista.findByPk(valores.idMotorista)
+            if (!motorista) {
+                return res.status(404).json({ message: 'Motorista informado não existe!' })
+            }
+        }
+
+        if (valores.codRastreio && !Number.isInteger(Number(valores.codRastreio))) {
+            return res.status(400).json({ message: 'O código de rastreio deve ser numérico!' })
         }
 
         const dadosAtualizados = { ...valores }

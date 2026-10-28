@@ -1,4 +1,5 @@
 const Entrega = require('../models/Entrega')
+const Carga = require('../models/Carga')
 
 const cadastrar = async(req,res)=>{
     const valores = req.body
@@ -9,6 +10,11 @@ const cadastrar = async(req,res)=>{
         return res.status(400).json({ message: 'O status deve ser ENTREGUE ou TRANSITO!' })
     }
     try{
+        const carga = await Carga.findByPk(valores.idCarga)
+        if (!carga) {
+            return res.status(404).json({ message: 'Carga informada não existe!' })
+        }
+
         await Entrega.create({
             cidadeDestino: valores.cidadeDestino,
             status: valores.status,
@@ -23,9 +29,11 @@ const cadastrar = async(req,res)=>{
     }
 }
 
+// filtro por data: /entregas?ordem=ASC (mais antigas primeiro) ou ?ordem=DESC (mais recentes primeiro)
 const listar = async (req, res) => {
+    const ordem = req.query.ordem === 'ASC' ? 'ASC' : 'DESC'
     try {
-        const entregas = await Entrega.findAll({ order: [['data', 'DESC'], ['hora', 'DESC']] })
+        const entregas = await Entrega.findAll({ order: [['data', ordem], ['hora', ordem]] })
         let resultado = []
 
         entregas.forEach((el)=>{
@@ -82,6 +90,13 @@ const atualizar = async (req, res) => {
         if (valores.status) {
             if (valores.status !== 'ENTREGUE' && valores.status !== 'TRANSITO') {
                 return res.status(400).json({ message: 'O status deve ser ENTREGUE ou TRANSITO!' })
+            }
+        }
+
+        if (valores.idCarga) {
+            const carga = await Carga.findByPk(valores.idCarga)
+            if (!carga) {
+                return res.status(404).json({ message: 'Carga informada não existe!' })
             }
         }
 

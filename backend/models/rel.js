@@ -1,6 +1,7 @@
 const Entrega = require('../models/Entrega')
 const Carga = require('../models/Carga')
 const Motorista = require('../models/Motorista')
+const Funcionario = require('../models/Funcionario')
 
 Motorista.hasMany(Carga, {
     as: 'motoristasCargas',
@@ -20,4 +21,4 @@ Entrega.belongsTo(Carga, {
     as: 'entregasCargas',
     foreignKey: 'idCarga'
 })
-module.exports = {Entrega, Carga, Motorista}
+module.exports = {Funcionario, Entrega, Carga, Motorista}

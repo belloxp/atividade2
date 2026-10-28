@@ -8,6 +8,11 @@ const cadastrar = async(req,res)=>{
         return res.status(400).json({ message: 'Todos os campos nome, email, senha, são obrigatórios!' })
     }
     try{
+        const existe = await Funcionario.findOne({ where: { email: valores.email } })
+        if (existe) {
+            return res.status(409).json({ message: 'E-mail já cadastrado!' })
+        }
+
         const senhaCriptografada = cryptoJS.AES.encrypt(valores.senha, CHAVE_SECRETA).toString()
         await Funcionario.create({
             nome: valores.nome,

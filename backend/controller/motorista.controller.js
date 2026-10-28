@@ -2,6 +2,7 @@
 const cryptoJS = require('crypto-js')
 const CHAVE_SECRETA = 'segredo'
 const Motorista = require('../models/Motorista')
+const { Op } = require('sequelize')
 
 const cadastrar = async(req,res)=>{
     const valores = req.body
@@ -130,26 +131,29 @@ const apagar = async (req, res) => {
     }
 }
 
+// busca por nome (aceita parte do nome)
 const consultarNome = async (req, res) => {
     const nome = req.params.nome
 
     try {
-        const motorista = await Motorista.findOne({ where: { nome: nome } })
+        const motoristas = await Motorista.findAll({ where: { nome: { [Op.like]: `%${nome}%` } } })
 
-        if (!motorista) {
+        if (motoristas.length === 0) {
             return res.status(404).json({ message: 'Motorista não encontrado!' })
         }
 
-        const CNHdecrypt = cryptoJS.AES.decrypt(motorista.CNH, CHAVE_SECRETA).toString(cryptoJS.enc.Utf8)
-        const CPFdecrypt = cryptoJS.AES.decrypt(motorista.CPF, CHAVE_SECRETA).toString(cryptoJS.enc.Utf8)
+        let resultado = []
 
-        return res.status(200).json({
-            codMotorista: motorista.codMotorista,
-            nome: motorista.nome,
-            CNH: CNHdecrypt,
-            CPF: CPFdecrypt,
-            telefone: motorista.telefone
+        motoristas.forEach((el)=>{
+            resultado.push({
+                codMotorista: el.codMotorista,
+                nome: el.nome,
+                CNH: cryptoJS.AES.decrypt(el.CNH, CHAVE_SECRETA).toString(cryptoJS.enc.Utf8),
+                CPF: cryptoJS.AES.decrypt(el.CPF, CHAVE_SECRETA).toString(cryptoJS.enc.Utf8),
+                telefone: el.telefone
+            })
         })
+        return res.status(200).json(resultado)
     } catch (err) {
         console.error('Erro ao consultar motorista por nome:', err)
         return res.status(500).json({ message: 'Erro ao consultar motorista por nome!' })

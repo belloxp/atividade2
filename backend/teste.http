@@ -116,8 +116,8 @@ Authorization: {{loginReq.response.body.token}}
 GET http://localhost:3000/motorista/1
 Authorization: {{loginReq.response.body.token}}
 
-### 14. Consultar Motorista por Nome (Route Param)
-GET http://localhost:3000/motorista/nome/Carlos
+### 14. Consultar Motorista por Nome (aceita parte do nome)
+GET http://localhost:3000/motorista/nome/Car
 Authorization: {{loginReq.response.body.token}}
 
 ### 15. Consultar Motorista por Nome Inexistente (Deve retornar 404)
@@ -143,6 +143,7 @@ Authorization: {{loginReq.response.body.token}}
     "descricao": "Caixas de eletrônicos",
     "peso": 1200.50,
     "volume": 15.75,
+    "codRastreio": 100001,
     "idMotorista": 1
 }
 
@@ -155,6 +156,7 @@ Authorization: {{loginReq.response.body.token}}
     "descricao": "Móveis de escritório",
     "peso": 850.00,
     "volume": 22.30,
+    "codRastreio": 100002,
     "idMotorista": 2
 }
 
@@ -167,7 +169,34 @@ Authorization: {{loginReq.response.body.token}}
     "descricao": "Alimentos não perecíveis",
     "peso": 2300.00,
     "volume": 30.00,
+    "codRastreio": 100003,
     "idMotorista": 3
+}
+
+### 19.1 Cadastrar Carga com motorista inexistente (Deve retornar 404)
+POST http://localhost:3000/carga
+Content-Type: application/json
+Authorization: {{loginReq.response.body.token}}
+
+{
+    "descricao": "Teste",
+    "peso": 10,
+    "volume": 1,
+    "codRastreio": 100999,
+    "idMotorista": 999
+}
+
+### 19.2 Cadastrar Carga com código de rastreio repetido (Deve retornar 409)
+POST http://localhost:3000/carga
+Content-Type: application/json
+Authorization: {{loginReq.response.body.token}}
+
+{
+    "descricao": "Teste",
+    "peso": 10,
+    "volume": 1,
+    "codRastreio": 100001,
+    "idMotorista": 1
 }
 
 ### 20. Listar Todas as Cargas
@@ -250,16 +279,46 @@ Authorization: {{loginReq.response.body.token}}
     "status": "ENTREGUE"
 }
 
-### 28. Consultar Entrega por ID (codEntrega é o código de rastreio)
+### 27.1 Cadastrar Entrega com carga inexistente (Deve retornar 404)
+POST http://localhost:3000/entrega
+Content-Type: application/json
+Authorization: {{loginReq.response.body.token}}
+
+{
+    "cidadeDestino": "Itajaí",
+    "status": "TRANSITO",
+    "data": "2026-10-20",
+    "hora": "09:00:00",
+    "idCarga": 999
+}
+
+### 28. Consultar Entrega por ID
 GET http://localhost:3000/entrega/1
 Authorization: {{loginReq.response.body.token}}
 
-### 29. Listar Entregas Ordenadas por Data (Deve retornar a ordem: 30/10, 15/10 e 05/10)
-GET http://localhost:3000/entregas
+### 29. Listar Entregas Ordenadas por Data - mais recentes primeiro (ordem: 30/10, 15/10 e 05/10)
+GET http://localhost:3000/entregas?ordem=DESC
+Authorization: {{loginReq.response.body.token}}
+
+### 29.1 Listar Entregas Ordenadas por Data - mais antigas primeiro (ordem: 05/10, 15/10 e 30/10)
+GET http://localhost:3000/entregas?ordem=ASC
 Authorization: {{loginReq.response.body.token}}
 
 ### 30. Testar Rota Protegida Sem Token (Deve retornar erro 401)
 GET http://localhost:3000/entregas
+
+### 30.1 Testar Rota Protegida com Token inválido (Deve retornar erro 401)
+GET http://localhost:3000/entregas
+Authorization: tokenfalso123
+
+### 30.2 Atualizar Carga 1
+PUT http://localhost:3000/carga/1
+Content-Type: application/json
+Authorization: {{loginReq.response.body.token}}
+
+{
+    "peso": 1300
+}
 
 ### 31. Deletar Motorista Inexistente (Deve retornar 404)
 DELETE http://localhost:3000/motorista/999
@@ -268,3 +327,13 @@ Authorization: {{loginReq.response.body.token}}
 ### 32. Deletar Motorista 3 (Pedro)
 DELETE http://localhost:3000/motorista/3
 Authorization: {{loginReq.response.body.token}}
+
+### 33. Funcionario com e-mail repetido (Deve retornar 409)
+POST http://localhost:3000/funcionario
+Content-Type: application/json
+
+{
+    "nome": "Marcos 2",
+    "email": "marcos@gmail.com",
+    "senha": "123"
+}

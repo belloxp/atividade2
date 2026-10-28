@@ -18,6 +18,11 @@ const Carga = db.define('cargas',{
         type : DataTypes.FLOAT(10,2),
         allowNull : false
     },
+    codRastreio :  {
+        type : DataTypes.INTEGER,
+        allowNull : false,
+        unique : true
+    },
     idMotorista:{
         type : DataTypes.INTEGER,
         allowNull : false,

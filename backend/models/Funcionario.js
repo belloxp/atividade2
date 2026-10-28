@@ -12,7 +12,8 @@ const Funcionario = db.define('funcionarios',{
     },
     email :  {
         type : DataTypes.STRING,
-        allowNull : false
+        allowNull : false,
+        unique : true
     },
     senha :  {
         type : DataTypes.STRING,

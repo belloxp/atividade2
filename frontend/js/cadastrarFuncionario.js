@@ -18,6 +18,7 @@ cadastrar.addEventListener('click', (e) => {
     .then(res => res.json())
     .then(dados => {
         resposta.innerHTML = `<p>${dados.message}</p>`
+        document.querySelector('form').reset()
     })
     .catch(err => {
         console.error('Erro ao cadastrar funcionario:', err)

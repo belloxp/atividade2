@@ -1,0 +1,257 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --azul: #1778bc;
+    --azul_escuro: #0b3d6b;
+    --azul_claro: #93c5fd;
+    --fundo: #eef2f7;
+    --texto: #1f2937;
+    --cinza: #64748b;
+    --borda: #cbd5e1;
+}
+
+body {
+    background-color: var(--fundo);
+    color: var(--texto);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+
+/* ---------- menu no topo ---------- */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: linear-gradient(90deg, var(--azul_escuro), var(--azul));
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+header > br,
+header > hr,
+nav br {
+    display: none;
+}
+
+nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 12px 16px;
+    text-align: center;
+    line-height: 2.4;
+}
+
+nav hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    margin: 6px 0;
+}
+
+nav hr:last-of-type {
+    display: none;
+}
+
+nav a {
+    text-decoration: none;
+    font-size: 1rem;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+nav a:hover,
+nav a:focus-visible {
+    background-color: rgba(255, 255, 255, 0.18);
+    outline: none;
+}
+
+.titulo_menu {
+    color: var(--azul_claro);
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#funcionario_logado {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.12);
+    padding: 4px 12px;
+    border-radius: 20px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.95rem;
+}
+
+#logout {
+    background-color: #dc2626;
+}
+
+#logout:hover {
+    background-color: #b91c1c;
+}
+
+/* ---------- conteúdo ---------- */
+main {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 16px;
+    text-align: center;
+}
+
+main br {
+    display: none;
+}
+
+h1 {
+    font-size: 2rem;
+    color: var(--azul_escuro);
+    margin-bottom: 8px;
+}
+
+h2 {
+    font-size: 1.2rem;
+    color: var(--cinza);
+    font-weight: normal;
+    margin-top: 12px;
+}
+
+/* ---------- formulários ---------- */
+form {
+    background-color: white;
+    max-width: 420px;
+    margin: 24px auto;
+    padding: 28px;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+    text-align: left;
+}
+
+label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--azul_escuro);
+    margin: 14px 0 6px;
+}
+
+label:first-child {
+    margin-top: 0;
+}
+
+input, select {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--texto);
+    background-color: #f8fafc;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--azul);
+    box-shadow: 0 0 0 3px rgba(23, 120, 188, 0.2);
+    background-color: white;
+}
+
+button {
+    display: block;
+    width: 100%;
+    margin-top: 22px;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    background-color: var(--azul);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover {
+    background-color: var(--azul_escuro);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:focus-visible {
+    outline: 3px solid var(--azul_claro);
+    outline-offset: 2px;
+}
+
+/* ---------- respostas e tabelas ---------- */
+.resposta {
+    margin-top: 16px;
+    overflow-x: auto;
+}
+
+.resposta p {
+    display: inline-block;
+    background-color: #e0f2fe;
+    color: #075985;
+    border-left: 4px solid var(--azul);
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+    min-width: 60%;
+}
+
+th {
+    background-color: var(--azul_escuro);
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+th, td {
+    padding: 12px 16px;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+tbody tr:hover {
+    background-color: #e0f2fe;
+}
+
+/* ---------- celular ---------- */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    form {
+        padding: 20px;
+    }
+
+    nav a {
+        padding: 6px 8px;
+    }
+}

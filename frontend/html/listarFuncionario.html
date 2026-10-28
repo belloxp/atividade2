@@ -3,16 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/sessao.js" defer></script>
     <script src="../js/listarFuncionario.js" defer></script>
-    <title>LISTAR FUNCIONARIO</title>
+    <title>Lista de Funcionários - Logística Express</title>
 </head>
 <body>
-    <h1>LISTAR FUNCIONARIO</h1><br>
-    <form >
-        <button id="listar">LISTAR</button>
-        <div id="resposta">
-
-        </div>
-    </form>
+    <header>
+        <nav aria-label="Menu principal">
+            <a href="../index.html">Home</a>&emsp;
+            <span class="titulo_menu" id="funcionario_logado"></span>&emsp;
+            <a href="#" id="logout">Logout</a>
+        </nav>
+        <br><hr><br>
+    </header>
+    <main>
+        <h1>Funcionários Cadastrados</h1>
+        <form>
+            <button id="listar">Listar</button>
+        </form>
+        <div id="resposta" class="resposta"></div>
+    </main>
 </body>
 </html>

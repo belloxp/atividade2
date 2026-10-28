@@ -3,9 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/index.js" defer></script>
+    <title>Logística Express - Gestão de Encomendas</title>
 </head>
 <body>
-    
+    <header>
+        <nav aria-label="Menu principal">
+            <a href="./index.html">Home</a>&emsp;&emsp;
+
+            <span class="titulo_menu">Funcionário:</span>&emsp;
+            <span class="titulo_menu" id="funcionario_logado"></span>&emsp;
+            <a href="#" id="logout">Logout</a>&emsp;
+            <a href="./html/listarFuncionario.html">Listar Funcionários</a>
+            <br><br><hr><br>
+
+            <span class="titulo_menu">Motoristas</span>&emsp;
+            <a href="./html/cadastrarMotorista.html">Cadastrar</a>&emsp;
+            <a href="./html/listarMotorista.html">Listar</a>&emsp;
+            <a href="./html/consultarMotorista.html">Consultar</a>&emsp;
+            <a href="./html/buscarMotorista.html">Buscar por Nome</a>&emsp;
+            <a href="./html/atualizarMotorista.html">Atualizar</a>&emsp;
+            <a href="./html/apagarMotorista.html">Excluir</a>
+            <br><br><hr><br>
+
+            <span class="titulo_menu">Cargas</span>&emsp;
+            <a href="./html/cadastrarCarga.html">Cadastrar</a>&emsp;
+            <a href="./html/listarCarga.html">Listar</a>&emsp;
+            <a href="./html/consultarCarga.html">Consultar</a>&emsp;
+            <a href="./html/atualizarCarga.html">Atualizar</a>&emsp;
+            <a href="./html/apagarCarga.html">Excluir</a>
+            <br><br><hr><br>
+
+            <span class="titulo_menu">Entregas</span>&emsp;
+            <a href="./html/cadastrarEntrega.html">Cadastrar</a>&emsp;
+            <a href="./html/atualizarEntrega.html">Atualizar Status</a>&emsp;
+            <a href="./html/consultarEntrega.html">Consultar</a>&emsp;
+            <a href="./html/listarEntrega.html">Listar por Data</a>
+            <br><br><hr><br>
+        </nav>
+    </header>
+    <main>
+        <h1>Painel de Controle - Logística Express</h1>
+        <br><br>
+        <h2 id="boas_vindas"></h2><br>
+        <h2>Sistema de Gestão e Rastreamento de Encomendas</h2><br>
+    </main>
 </body>
 </html>
